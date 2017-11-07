@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Music Player</title>
+  <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="assets/css/normalize.css">
+  <link rel="stylesheet" href="assets/css/font-awesome.css">
+  <link rel="stylesheet" href="assets/css/app.css">
+</head>
+
+<body class="page" id="app">
+  <header class="header">
+    <a href="home.html"><i class="fa fa-expand"></i></a>
+    <h1><i class="fa fa-music"></i> Music Player</h1>
+    <a v-link="{name: 'list'}"><i class="fa fa-list"></i></a>
+  </header>
+  <section class="main">
+    <router-view></router-view>
+  </section>
+  <!-- script标签的内容不会显示在页面里，且如果type不是text/javascript，就不会执行，所以这里使用script来存储页面的html-->
+  <!-- 首页-->
+  <script type="text/v-template" id="home_tmp1">
+    <img src="assets/img/home.png" alt="" width="100%">
+  </script>
+  <!-- 歌曲目录页-->
+  <script type="text/v-template" id="list_tmp1">
+    <div class="list">
+      <ol>
+        <li v-for="item in list">
+          <a v-link="{name:'item',params:{id:item.id}}">
+            <span class="num">{{pad(item.id,3)}}</span>
+            <div class="info">
+              <h3 class="title">{{item.name}}</h3>
+              <span class="artist">{{item.artist}}</span>
+            </div>
+            <span class="duration">{{convert(item.duration)}}</span>
+            <div class="photo"><img v-bind:src="item.poster" alt="{{item.artist}}"></div>
+          </a>
+        </li>
+      </ol>
+    </div>
+  </script>
+  <!-- 歌曲播放页-->
+  <script type="text/v-template" id="item_tmp1">
+    <div class="player">
+      <div class="disc">
+        <img v-bind:src="item.poster" alt="{{item.artist}}">
+        <span class="duration">{{convert(item.duration)}}</span>
+      </div>
+      <h2 class="title">{{item.name}}</h2>
+      <h3 class="artist">{{item.artist}}</h3>
+      <div class="lyric">
+        <p class="previous">人如天上的明月是不可拥有</p>
+        <p class="current">情如曲过只遗留无可挽救再分别</p>
+        <p class="next">为何只是失望填密我的空虚</p>
+      </div>
+      <div class="progressbar">
+        <progress value="10" max="100"></progress>
+        <input type="range" value="10">
+      </div>
+      <div class="controls">
+        <button><i class="fa fa-retweet"></i></button>
+        <button class="active"><i class="fa fa-backward"></i></button>
+        <button class="active"><i class="fa fa-play"></i></button>
+        <button class="active"><i class="fa fa-forward"></i></button>
+        <button class="active"><i class="fa fa-random"></i></button>
+      </div>
+    </div>  
+  </script>
+  <script src="libs/vue/vue.js"></script>
+  <script src="libs/vue-resource/vue-resource.js"></script>
+  <script src="libs/vue-router/vue-router.js"></script>
+  <script src="app.js"></script>
+</body>
+
+</html>
